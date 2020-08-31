@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es3",
+        "noImplicitAny": false,
+        "outDir": "built",
+        "outFile": "built/src/ts/app.js" ,
+        "rootDir": ".",
+        "sourceMap": false,
+        "removeComments": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "./src/ts/DataStructure/asignatures.ts",
+        "./src/ts/DataStructure/peoples.ts",
+        "./src/ts/DataStructure/main.ts"
+    ]
+}
