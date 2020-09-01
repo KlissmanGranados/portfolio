@@ -53,6 +53,9 @@ abstract class Person{
             console.log(error);
         }
     }
+    selectAsgGeneral(_id:number):number{
+        return getIndex.call(_asignatureData,_id);
+    }
 }
 class Teacher extends Person{
 
@@ -62,7 +65,18 @@ class Teacher extends Person{
         super(_ci,_name,_lastName);
     }
     setAsignatures(_asg: number):void{
-        this.asignatureId.push(_asg);
+        
+        let i = this.selectAsgGeneral(_asg);
+        
+        if(!_asignatureData[i].getState()){
+
+            this.asignatureId.push(_asg);
+            _asignatureData[i].setTeacherID(this.id);    
+        }
+    }
+    removeAsignature(_asg:number):boolean{
+        let opc = _asignatureData[this.selectAsgGeneral(_asg)].removeTeacherID(this.id);
+        return opc;
     }
     getAsignatures():Array<number>{
         return this.asignatureId;
@@ -80,7 +94,11 @@ class Student extends Person{
         super(_ci,_name,_lastName);
     }
     setAsignature(_asg:AsignatureStudent):void{
-        this.asignatures.push(_asg);
+        let i = this.selectAsgGeneral(_asg.getID());
+        if(_asignatureData[i].getState()){
+            _asignatureData[i].setStudentId(this.id);
+            this.asignatures.push(_asg);
+        }
     }
     private Average():void{
         let aux: number = 0;
@@ -105,7 +123,30 @@ class Student extends Person{
         return findID.call(_studentsLists);
     }
     removeAsignature(_id:number):void{
+        let i = this.selectAsgGeneral(_id);
         deleteElement.call(this.asignatures,_id);
+        _asignatureData[i].removeStudentId(_id);
+    }
+    selectAsg(_id:number):number{
+        return getIndex.call(this.asignatures,_id);
+    }
+    setPoints(_id:number,_pts:number):void{
+        this.asignatures[this.selectAsg(_id)].setPoints(_pts);
+        this.Average();
+    }
+    updatePoints(_id:number,_points:Array<number>):Array<number>{
+        this.asignatures[this.selectAsg(_id)].updatePoints(_points);
+        return this.asignatures[this.selectAsg(_id)].getPoints();
+    }
+    setNameAsg(_id:number,_name:String):void{
+        this.asignatures[this.selectAsg(_id)].setName(_name);
+    }
+    setSection(_id:number,_section:String):void{
+        this.asignatures[this.selectAsg(_id)].setSection(_section);
+    }
+    updateAsignature(_id:number,_name:String,_section:String):void{
+        this.setNameAsg(_id,_name);
+        this.setSection(_id,_section);
     }
 }
 

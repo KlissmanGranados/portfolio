@@ -37,17 +37,21 @@ var asignature = (function () {
         this.section = _section;
         this.id = this.setID();
     }
+    asignature.prototype.setName = function (_name) {
+        this.name = _name;
+    };
+    asignature.prototype.setSection = function (_section) {
+        this.section = _section;
+    };
     asignature.prototype.setPoints = function (_pts) {
         if (_pts >= 0) {
             this.points.push(_pts);
             this.setAverage();
         }
     };
-    asignature.prototype.editPoints = function (i, value) {
-        if (value > 0) {
-            this.points[i] = value;
-            this.setAverage();
-        }
+    asignature.prototype.updatePoints = function (_points) {
+        this.points = _points;
+        this.setAverage();
     };
     asignature.prototype.setAverage = function () {
         var aux = 0;
@@ -93,6 +97,7 @@ var AsignatureData = (function (_super) {
     __extends(AsignatureData, _super);
     function AsignatureData(_name, _section) {
         _super.call(this, _name, _section);
+        this.studentId = [];
         this.countStudents = 0;
         this.state = false;
     }
@@ -106,9 +111,24 @@ var AsignatureData = (function (_super) {
             this.setCountStudents();
         }
     };
+    AsignatureData.prototype.removeStudentId = function (_id) {
+        if (this.studentId.length > 0 && this.countStudents > 0) {
+            deleteElement.call(this.studentId, _id);
+            this.countStudents--;
+        }
+    };
+    AsignatureData.prototype.removeTeacherID = function (_id) {
+        var i = false;
+        if (_id == this.id && !this.getState()) {
+            this.id = -1;
+            this.setState(false);
+            i = true;
+        }
+        return i;
+    };
     AsignatureData.prototype.setCountStudents = function () {
         if (this.getState()) {
-            this.countStudents += 1;
+            this.countStudents++;
         }
         else {
             this.setState(false);
@@ -176,6 +196,9 @@ var Person = (function () {
             console.log(error);
         }
     };
+    Person.prototype.selectAsgGeneral = function (_id) {
+        return getIndex.call(_asignatureData, _id);
+    };
     return Person;
 })();
 var Teacher = (function (_super) {
@@ -185,7 +208,15 @@ var Teacher = (function (_super) {
         this.asignatureId = [];
     }
     Teacher.prototype.setAsignatures = function (_asg) {
-        this.asignatureId.push(_asg);
+        var i = this.selectAsgGeneral(_asg);
+        if (!_asignatureData[i].getState()) {
+            this.asignatureId.push(_asg);
+            _asignatureData[i].setTeacherID(this.id);
+        }
+    };
+    Teacher.prototype.removeAsignature = function (_asg) {
+        var opc = _asignatureData[this.selectAsgGeneral(_asg)].removeTeacherID(this.id);
+        return opc;
     };
     Teacher.prototype.getAsignatures = function () {
         return this.asignatureId;
@@ -202,7 +233,11 @@ var Student = (function (_super) {
         this.asignatures = [];
     }
     Student.prototype.setAsignature = function (_asg) {
-        this.asignatures.push(_asg);
+        var i = this.selectAsgGeneral(_asg.getID());
+        if (_asignatureData[i].getState()) {
+            _asignatureData[i].setStudentId(this.id);
+            this.asignatures.push(_asg);
+        }
     };
     Student.prototype.Average = function () {
         var aux = 0;
@@ -227,7 +262,30 @@ var Student = (function (_super) {
         return findID.call(_studentsLists);
     };
     Student.prototype.removeAsignature = function (_id) {
+        var i = this.selectAsgGeneral(_id);
         deleteElement.call(this.asignatures, _id);
+        _asignatureData[i].removeStudentId(_id);
+    };
+    Student.prototype.selectAsg = function (_id) {
+        return getIndex.call(this.asignatures, _id);
+    };
+    Student.prototype.setPoints = function (_id, _pts) {
+        this.asignatures[this.selectAsg(_id)].setPoints(_pts);
+        this.Average();
+    };
+    Student.prototype.updatePoints = function (_id, _points) {
+        this.asignatures[this.selectAsg(_id)].updatePoints(_points);
+        return this.asignatures[this.selectAsg(_id)].getPoints();
+    };
+    Student.prototype.setNameAsg = function (_id, _name) {
+        this.asignatures[this.selectAsg(_id)].setName(_name);
+    };
+    Student.prototype.setSection = function (_id, _section) {
+        this.asignatures[this.selectAsg(_id)].setSection(_section);
+    };
+    Student.prototype.updateAsignature = function (_id, _name, _section) {
+        this.setNameAsg(_id, _name);
+        this.setSection(_id, _section);
     };
     return Student;
 })(Person);
@@ -243,13 +301,11 @@ var Regedit = (function () {
     Regedit.prototype.getTeachers = function () {
         return _TeachersLists;
     };
-    Regedit.prototype.searchTeacher = function (_id) {
-        return _TeachersLists[getIndex.call(_TeachersLists, _id)];
+    Regedit.prototype.selectTeacher = function (_id) {
+        return getIndex.call(_TeachersLists, _id);
     };
-    Regedit.prototype.updateTeacher = function (_id, _data) {
-        var index = getIndex.call(_TeachersLists, _id);
-        if (index >= 0)
-            _TeachersLists[index].updatePersonalData(_data);
+    Regedit.prototype.searchTeacher = function (_id) {
+        return _TeachersLists[this.selectTeacher(_id)];
     };
     Regedit.prototype.setStudent = function (_Student) {
         _studentsLists.push(_Student);
@@ -257,13 +313,11 @@ var Regedit = (function () {
     Regedit.prototype.getStudents = function () {
         return _studentsLists;
     };
-    Regedit.prototype.searchStudent = function (_id) {
-        return _studentsLists[getIndex.call(_studentsLists, _id)];
+    Regedit.prototype.selectStudent = function (_id) {
+        return getIndex.call(_studentsLists, _id);
     };
-    Regedit.prototype.updateStudent = function (_id, _data) {
-        var index = getIndex.call(_studentsLists, _id);
-        if (index >= 0)
-            _studentsLists[index].updatePersonalData(_data);
+    Regedit.prototype.searchStudent = function (_id) {
+        return _studentsLists[this.selectStudent(_id)];
     };
     Regedit.prototype.setAsignature = function (_asg) {
         _asignatureData.push(_asg);
@@ -271,5 +325,12 @@ var Regedit = (function () {
     Regedit.prototype.getAsignatures = function () {
         return _asignatureData;
     };
+    Regedit.prototype.selectAsignature = function (_id) {
+        return getIndex.call(_asignatureData, _id);
+    };
+    Regedit.prototype.searchAsignature = function (_id) {
+        return _asignatureData[this.selectAsignature(_id)];
+    };
     return Regedit;
 })();
+var rgdCtrl = new Regedit();

@@ -20,6 +20,7 @@ function getIndex(_id:number):number{
             index = i;
         }
     });
-    if(index<0) console.log("Revisar ID");
+    if(index<0) 
+        console.log("Revisar ID");
     return index;
 }
