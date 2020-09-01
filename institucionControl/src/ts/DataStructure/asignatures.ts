@@ -1,11 +1,3 @@
-function findID():number{
-    let id = 0;
-    if(this.length>0){
-        let _id: number = this[this.length-1].id+1;
-        id = _id;
-    }
-    return id;
-}
 abstract class asignature{
     
     protected id: number;
@@ -22,6 +14,12 @@ abstract class asignature{
     setPoints(_pts: number):void{
         if(_pts>=0){
             this.points.push(_pts);
+            this.setAverage();
+        }
+    }
+    editPoints(i:number,value:number):void{
+        if(value>0){
+            this.points[i] = value;
             this.setAverage();
         }
     }
@@ -51,6 +49,7 @@ abstract class asignature{
     }
 }
 class AsignatureStudent extends asignature{
+    
     constructor(_name: String, _section: String){
         super(_name,_section);
     }
@@ -66,14 +65,33 @@ class AsignatureStudent extends asignature{
 }
 class AsignatureData extends asignature{
 
+    private teacherId: number;
+    private studentId: Array<number>;
     private countStudents:number = 0;
     private state: boolean = false;
 
     constructor(_name: String, _section: String){
         super(_name,_section);
     }
+    setTeacherID(_idTeacher:number):void{
+        this.teacherId = (_idTeacher);
+        this.setState(true);
+    }
+    setStudentId(_id:number):void{
+        if(this.state){
+            this.studentId.push(_id);
+            this.setCountStudents();
+        }
+    }
     setCountStudents():void{
-        this.countStudents += 1;
+        if(this.getState()){
+            this.countStudents += 1;
+        }else{
+            this.setState(false);
+        }
+    }
+    getTeacherID():number{
+        return this.teacherId;
     }
     setState(_state: boolean):void{
         this.state = _state;

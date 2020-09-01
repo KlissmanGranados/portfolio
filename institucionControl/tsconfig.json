@@ -13,8 +13,10 @@
         "node_modules"
     ],
     "files": [
+        "./src/ts/DataStructure/controller/functions.ts",
         "./src/ts/DataStructure/asignatures.ts",
         "./src/ts/DataStructure/peoples.ts",
-        "./src/ts/DataStructure/main.ts"
+        "src/ts/DataStructure/saveModels.ts",
+        "src/ts/DataStructure/controller/Regedit.ts"
     ]
 }

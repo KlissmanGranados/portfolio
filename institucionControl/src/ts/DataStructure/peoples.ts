@@ -12,19 +12,60 @@ abstract class Person{
         this.lastName = _lastName;
     }
     abstract setID():number;
+    updatePersonalData(_data:Array<String>):void{
+        
+        let _personaData:Array<String> = new Array(this.ci,this.name,this.lastName);
+        try {
+            
+            if(_data.length<=_personaData.length){
+                
+                _data.forEach((value,i)=>{
+
+                    switch(i){
+                        case 0:{
+                            if(value && value!=_personaData[i]){
+                                let n: number = parseInt(value.toString()); 
+                                if(!isNaN(n)){
+                                    _personaData[i] = value;
+                                }else{
+                                    console.log("Hay un problema con la cedula");
+                                }
+                            }
+                            break;
+                        }
+                        default:{
+                            if(value && value!=_personaData[i]){
+                                _personaData[i] = value;
+                            }
+                            break;
+                        }
+                    }
+                });
+    
+                this.ci       = _personaData[0];
+                this.name     = _personaData[1];
+                this.lastName = _personaData[2];   
+            }else{
+                console.log("La longitud del vector no concuerda, verificar vector introducido");
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 class Teacher extends Person{
 
-    private asignatures: Array<AsignatureData> =[];
+    private asignatureId: Array<number> =[];
 
     constructor(_ci: String, _name: String, _lastName: String){
         super(_ci,_name,_lastName);
     }
-    setAsignatures(_asg: AsignatureData):void{
-        this.asignatures.push(_asg);
+    setAsignatures(_asg: number):void{
+        this.asignatureId.push(_asg);
     }
-    getAsignatures():Array<AsignatureData>{
-        return this.asignatures;
+    getAsignatures():Array<number>{
+        return this.asignatureId;
     }
     setID():number{
         return findID.call(_TeachersLists);
@@ -62,6 +103,9 @@ class Student extends Person{
     }
     setID():number{
         return findID.call(_studentsLists);
+    }
+    removeAsignature(_id:number):void{
+        deleteElement.call(this.asignatures,_id);
     }
 }
 
