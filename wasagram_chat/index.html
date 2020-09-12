@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat =)</title>
+	<link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
+	<link rel="stylesheet" href="./css/styles.css">
+	<script defer src="./fontawesome/js/all.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="chat">
+			<div class="panel-left">
+				<div class="panel-left_menu">
+					<span id="pushed"><i class="fas fa-hamburger icon"></i></span>
+					<div class="avatar">
+						<span class="titulo-usuario">Persona</span>
+						<img src="./img/perfil/7.jpg" alt="foto-usuario" class="users-img">
+					</div>
+					<input type="text" name="search-chat" class="panel-left_menu__input" placeholder="Busqueda ...">
+					<span class="panel-left_menu__span"><i class="fas fa-search icon"></i></span>
+				</div>
+				<!--showing conversations-->
+				<div class="msg-container">
+					<img src="./img/perfil/1.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/2.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/3.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/4.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/5.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<!--eding conversations-->
+			</div>
+			<!--ending panel_left -->
+			<!--eding chat container-->
+			<!--Panel right-->
+			<div class="panel-right">
+				<nav class="panel-right__nav">
+					<span id="push"><i class="icon--active fas fa-hamburger"></i></span>
+					<div class="avatar">
+						<span class="titulo-usuario">Persona</span>
+						<img src="./img/perfil/1.jpg" alt="foto-usuario" class="users-img">
+					</div>
+					<div class="panel-right__nav__div">
+						<span><i class="fas fa-phone icon"></i></span>
+						<span><i class="fas fa-video icon"></i></span>
+					</div>
+				</nav>
+				<div class="msg-container">
+					<img src="./img/perfil/1.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container--active">
+					<img src="./img/perfil/7.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, chévere</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/1.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container">
+					<img src="./img/perfil/1.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, ¿Cómo estas?</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<div class="msg-container--active">
+					<img src="./img/perfil/7.jpg" alt="foto-usuario" class="users-img">
+					<div class="msg">
+						<span class="titulo-usuario">Persona</span>
+						<p>Hola, chévere</p>
+						<time>20:03</time>
+					</div>
+				</div>
+				<!--End msg-->
+				<form class="panel-right__form">
+					<span><i class="far fa-smile-beam icon"></i></span>
+					<input type="text" name="msg" placeholder="Escriba su mensaje">
+					<span><i class="fas fa-microphone icon"></i></span>
+				</form>
+			</div>
+			<!--Panel right end-->
+		</div>
+		<!--eding general container-->
+	</div>
+	<script src="./js/app.js"></script>
+</body>
+</html>
