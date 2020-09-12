@@ -95,8 +95,8 @@ class AsignatureData extends asignature{
     }
     removeTeacherID(_id:number):boolean{
         let i = false;
-        if(_id == this.id && !this.getState()){
-            this.id = -1;
+        if(_id == this.id && this.getState()){
+            this.teacherId = -1;
             this.setState(false);
             i = true;
         }
