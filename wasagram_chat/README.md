@@ -1,8 +1,5 @@
 # wasagram!
 
-La presente maqueta expone un frontend base referente a la estructuración de un chat, con css+js y normalize.
-___
-
 ### Capturas de pantalla
 
 ![tamaño grande](1.png)
